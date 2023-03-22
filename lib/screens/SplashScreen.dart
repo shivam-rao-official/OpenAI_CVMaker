@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   splashService() async {
     Timer(
       Duration(milliseconds: splashTimeoutInMillis),
-      () => Navigator.of(context).pushReplacementNamed("/cvForm"),
+      () => Navigator.of(context).pushReplacementNamed("/newCvForm"),
     );
   }
 

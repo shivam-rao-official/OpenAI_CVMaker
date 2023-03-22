@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as Http;
+import 'package:http/http.dart' as http;
 
-generateCV(String myCVString) async {
+Future<dynamic> generateCV(String myCVString) async {
   const String OPENAI_API_KEY =
-      "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";
+      "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";
 
   final Uri baseUrl = Uri.parse("https://api.openai.com/v1/completions");
 
@@ -15,22 +15,24 @@ generateCV(String myCVString) async {
 
   final body = {
     'model': "text-davinci-003",
-    'prompt': 'Generate my CV using $myCVString',
-    'max_tokens': 1024,
-    "temperature": 0.4,
+    'prompt': 'Generate a cv based in the details $myCVString',
+    'max_tokens': 4000,
+    "temperature": 1.2,
     'n': 1,
-    'stop': ['\n\n']
   };
+
   try {
     var response =
-    await Http.post(baseUrl, headers: headers, body: jsonEncode(body));
+        await http.post(baseUrl, headers: headers, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
-      print(response.body);
+      var resp = jsonDecode(response.body);
+      print(resp['choices'][0]['text'].toString());
+      return resp['choices'][0]['text'].toString();
     } else {
-      print("Error occurred ${response.statusCode}");
+      return "Error occured ${response.statusCode}";
     }
-  }catch(e){
+  } catch (e) {
     throw Exception(e);
   }
 }

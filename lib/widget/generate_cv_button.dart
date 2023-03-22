@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_maker_app/services/generateCV.dart';
 
-MaterialButton generateCVButton(
-    BuildContext context, TextEditingController controller) {
+MaterialButton generateCVButton(BuildContext context,
+    TextEditingController controller, Function() onPressed) {
   return MaterialButton(
-    onPressed: () => generateCV(controller.text),
+    onPressed: onPressed,
     color: const Color(0xff255fb6),
     elevation: 10,
     height: 60,

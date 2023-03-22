@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_maker_app/screens/CVForm.dart';
+import 'package:portfolio_maker_app/screens/FormLayout.dart';
 import 'package:portfolio_maker_app/screens/SplashScreen.dart';
 
 void main() {
@@ -25,11 +25,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // initialRoute: "/",
-      routes:{
-        "/cvForm": (context) => const OpenAIForm(),
-    },
+      routes: {
+        "/newCvForm": (context) => const CVForm(),
+      },
       home: const SplashScreen(),
     );
   }
 }
-
