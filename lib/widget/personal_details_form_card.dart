@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:portfolio_maker_app/services/cvController.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});
@@ -8,25 +10,17 @@ class PersonalDetails extends StatefulWidget {
 }
 
 class _PersonalDetailsState extends State<PersonalDetails> {
-  String? _email;
-  String? _fullName;
-  String? _phone;
-  String? _address;
-  String? _summary;
+  var cvController = Get.put(CVController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
-    );
-  }
-}
-
-/**
- * SizedBox(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height - 100,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Full Name',
@@ -43,7 +37,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _fullName = value;
+                  cvController.fullName.value = value;
                 });
               },
             ),
@@ -63,7 +57,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _email = value;
+                  cvController.email.value = value;
                 });
               },
             ),
@@ -83,7 +77,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _phone = value;
+                  cvController.phone.value = value;
                 });
               },
             ),
@@ -103,7 +97,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _address = value;
+                  cvController.address.value = value;
                 });
               },
             ),
@@ -116,19 +110,26 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
             ),
             const SizedBox(height: 8.0),
-            TextField(
-              maxLines: 5,
-              decoration: const InputDecoration(
-                hintText: 'Enter your summary',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _summary = value;
-                });
-              },
-            ),
+            // TextField(
+            //   maxLines: 5,
+            //   decoration: const InputDecoration(
+            //     hintText: 'Enter your summary',
+            //     border: OutlineInputBorder(),
+            //   ),
+            //   onChanged: (value) {
+            //     setState(() {
+            //       _summary = value;
+            //     });
+            //   },
+            // ),
           ],
         ),
       ),
+    );
+  }
+}
+
+/**
+ *
+ 
  */

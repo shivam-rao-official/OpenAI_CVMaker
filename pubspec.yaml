@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.0.2
+  get: ^4.6.5
   http: ^0.13.5
   linear_progress_bar: ^1.1.0
 

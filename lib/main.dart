@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_maker_app/screens/FormLayout.dart';
+import 'package:portfolio_maker_app/screens/RawCV.dart';
 import 'package:portfolio_maker_app/screens/SplashScreen.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: "/",
       routes: {
         "/newCvForm": (context) => const CVForm(),
+        "/rawCVLayout": (context) => RawCV(),
       },
       home: const SplashScreen(),
     );

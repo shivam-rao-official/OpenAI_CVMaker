@@ -1,21 +1,30 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-Future<dynamic> generateCV(String myCVString) async {
-  const String OPENAI_API_KEY =
-      "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";
+import '../apiSecret.dart';
+
+Future<dynamic> generateCV(
+  String? email,
+  String? fullName,
+  String? phone,
+  String? address,
+  String? summary,
+) async {
+  const String openAISecretKey = API_SECRET;
 
   final Uri baseUrl = Uri.parse("https://api.openai.com/v1/completions");
 
   final headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer $OPENAI_API_KEY'
+    'Authorization': 'Bearer $openAISecretKey'
   };
 
   final body = {
     'model': "text-davinci-003",
-    'prompt': 'Generate a cv based in the details $myCVString',
+    'prompt':
+        'Generate a cv based on the details my full name: $fullName email: $email phone: $phone address: $address and $summary',
     'max_tokens': 4000,
     "temperature": 1.2,
     'n': 1,
@@ -27,7 +36,6 @@ Future<dynamic> generateCV(String myCVString) async {
 
     if (response.statusCode == 200) {
       var resp = jsonDecode(response.body);
-      print(resp['choices'][0]['text'].toString());
       return resp['choices'][0]['text'].toString();
     } else {
       return "Error occured ${response.statusCode}";

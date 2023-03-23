@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:get/get.dart';
+import 'package:portfolio_maker_app/services/cvController.dart';
+import 'package:portfolio_maker_app/services/generateCV.dart';
+import 'package:portfolio_maker_app/widget/academic_details_form_card.dart';
 import 'package:portfolio_maker_app/widget/form_navigation_buttons.dart';
 import 'package:portfolio_maker_app/widget/personal_details_form_card.dart';
 import 'package:portfolio_maker_app/widget/progress_widget.dart';
@@ -12,10 +15,8 @@ class CVForm extends StatefulWidget {
 }
 
 class CVFormState extends State<CVForm> {
+  var cv = Get.put(CVController());
   // Declare variables for storing input values
-
-  int currentStep = 0;
-  int maxStep = 6;
 
   var cardLabels = [
     'Personal Details',
@@ -25,9 +26,11 @@ class CVFormState extends State<CVForm> {
     'Skills',
     'Hobbies'
   ];
-
+  int currentStep = 0;
+  int maxStep = 6;
   var screens = [
-    PersonalDetails(),
+    const PersonalDetails(),
+    const AcademicDetails(),
   ];
 
   @override
@@ -36,15 +39,15 @@ class CVFormState extends State<CVForm> {
       appBar: AppBar(
         title: const Text('CV Form'),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height - 200,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             /**
-             *  FORM PROGRESS BAR
-             */
-            Center(child: formProgressBar(currentStep, maxStep)),
+              *  FORM PROGRESS BAR AND TITLE
+              */
+            Center(child: formProgressBar(currentStep, screens.length)),
             Text(
               cardLabels[currentStep],
               style: const TextStyle(
@@ -52,15 +55,23 @@ class CVFormState extends State<CVForm> {
                 fontStyle: FontStyle.italic,
               ),
             ),
-            screens[currentStep],
             /**
-             *  FORM NAVIGATION BUTTONS TO GO FORWARD AND BACKWRD IN FORM CARDS
+             *  NAVIGATING THROUGH EACH FORM CARDS
              */
+            Expanded(
+              child: Container(
+                child: screens[currentStep],
+              ),
+            ),
+            /**
+              *  FORM NAVIGATION BUTTONS TO GO FORWARD AND BACKWRD IN FORM CARDS
+              */
             const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 formNavBtn(
+                  // BACK BUTTON FUNCTIONALITY
                   () {
                     if (currentStep != 0) {
                       setState(() {
@@ -70,18 +81,30 @@ class CVFormState extends State<CVForm> {
                   },
                   "<< Back",
                 ),
-                formNavBtn(
-                  () {
-                    if ((currentStep + 1) != maxStep) {
-                      setState(() {
-                        currentStep++;
-                      });
-                    }
-                  },
-                  "Next >>",
-                ),
+                (currentStep + 1) == screens.length
+                    ? formNavBtn(
+                        () async {
+                          await cv.doGenerateCV();
+                          if (cv.cv.isNotEmpty) {
+                            Navigator.of(context).pushNamed("/rawCVLayout");
+                          }
+                          print("Error===========================");
+                        },
+                        "SUBMIT",
+                      )
+                    : formNavBtn(
+                        // NEXT BUTTON FUNCTIONALITY
+                        () {
+                          if ((currentStep + 1) != screens.length) {
+                            setState(() {
+                              currentStep++;
+                            });
+                          }
+                        },
+                        "Next >>",
+                      ),
               ],
-            )
+            ),
           ],
         ),
       ),
